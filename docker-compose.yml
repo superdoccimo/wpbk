@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  wordpress:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: wordpress
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    environment:
+      - WORDPRESS_DB_HOST
+      - WORDPRESS_DB_USER
+      - WORDPRESS_DB_PASSWORD
+      - WORDPRESS_DB_NAME
+    volumes:
+      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./wordpress:/var/www/html  # WordPressのファイルをホストに永続化
+      - ./logs/apache2:/var/log/apache2  # ログファイルの外部マウント
+
+  db:
+    image: mysql:latest
+    container_name: wordpress-db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
+    volumes:
+      - ./db_data:/var/lib/mysql  # MySQLデータを永続化
+
+  wpsql:
+    image: mysql:latest
+    container_name: wpsql
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./backup:/backup  # バックアップ用のディレクトリ
+    command: >
+      /bin/bash -c "
+      while ! mysqladmin ping -h \"$$MYSQL_HOST\" --silent; do
+        sleep 1;
+      done;
+      while true; do
+        echo 'Starting backup...';
+        MYSQL_PWD=$$MYSQL_PASSWORD mysqldump -h $$MYSQL_HOST -u $$MYSQL_USER ${MYSQL_DATABASE} > /backup/${MYSQL_DATABASE}_backup.sql;
+        echo 'Backup complete.';
+        sleep 86400;
+      done"
+    restart: on-failure
+
+volumes:
+  db_data: {}
+  backup: {}  # バックアップ用ボリュームを追加
