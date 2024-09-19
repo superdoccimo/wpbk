@@ -184,7 +184,7 @@ For example, to restore using `backup.sql`, use the following command:
 ## Videos
 
 **English**  
-[https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ](https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ)
+[https://youtu.be/Rd1NwwLfyn8](https://youtu.be/Rd1NwwLfyn8)
 
 **Japanese**  
-[https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ](https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ)
+[https://youtu.be/MjQ9jPClsaY](https://youtu.be/MjQ9jPClsaY)
