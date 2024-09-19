@@ -1,125 +1,125 @@
-# WordPress Docker環境とバックアップ機能
+# WordPress Docker Environment and Backup Function
 
-このプロジェクトは、WordPress、MySQL、および自動バックアップのためのDocker環境を提供します。Dockerを使ってWordPressのセットアップと管理を簡素化し、データベースのバックアップ機能も含まれています。
+This project provides a Docker environment for WordPress, MySQL, and automatic backups. It simplifies the setup and management of WordPress using Docker and includes a database backup feature.
 
-## 特徴
-- **DockerでのWordPressインストール**
-- **永続化されたMySQLデータベース**
-- **データベースの自動バックアップ機能**
-- **多言語対応**: 日本語環境がデフォルトでセットアップされますが、エントリーポイントファイルでリンク先を変更することで、他の言語バージョンのWordPressにも対応可能です。たとえば、フランス語版やスペイン語版に簡単に切り替えることができます。
-- **移行用のバックアップ機能**: データベースを自動バックアップし、いつでも移行や復元が可能です。
-- **自動的なWordPressコアの更新**: コンテナの再起動時に、WordPressのコアファイルを自動的に最新バージョンに更新します。
-- **データの永続化**: wp-content ディレクトリやデータベースがホスト側に永続化され、コンテナの再起動や更新時でもカスタマイズやコンテンツが保持されます。
-- **管理しやすいログ機能**: Apacheのログをホスト側に保存する設定により、コンテナ外から簡単にアクセスしてエラーログなどを確認可能です。
-- **自動バックアップのスケジューリング**: MySQLのデータベースを毎日自動バックアップし、手動操作なしで定期的にバックアップが保存されます。
-- **簡単な環境変数の管理**: WordPressやMySQLの接続設定を簡単に管理でき、柔軟に環境を変更できます。
+## Features
+- **WordPress installation with Docker**
+- **Persistent MySQL database**
+- **Automatic database backup function**
+- **Multilingual support**: Japanese environment is set up by default, but you can switch to other language versions of WordPress by changing the link in the entry point file. For example, you can easily switch to French or Spanish versions.
+- **Backup function for migration**: Automatically backs up the database, allowing migration or restoration at any time.
+- **Automatic WordPress core updates**: Automatically updates WordPress core files to the latest version when the container restarts.
+- **Data persistence**: The wp-content directory and database are persisted on the host side, preserving customizations and content even when containers are restarted or updated.
+- **Easy-to-manage log function**: Apache logs are saved on the host side, allowing easy access to error logs from outside the container.
+- **Automatic backup scheduling**: Automatically backs up the MySQL database daily, saving backups regularly without manual operation.
+- **Easy management of environment variables**: WordPress and MySQL connection settings can be easily managed, allowing flexible environment changes.
 
 ## entrypoint.sh
 
-**目的**: コンテナ起動時に自動で実行されるスクリプトです。このスクリプトでは、WordPressの初期設定やファイルのコピー、データベース接続の設定が行われます。
+**Purpose**: This script is automatically executed when the container starts. It performs initial WordPress setup, file copying, and database connection configuration.
 
-## 設定の変更方法
-- 初期値は日本語になっています。`entrypoint.sh` 内の以下のURLとファイル名を、お好みの言語に変更できます。
+## How to Change Settings
+- The initial value is set to Japanese. You can change the following URL and file name in `entrypoint.sh` to your preferred language.
 
-- **日本語版WordPressのダウンロードURL**
+- **Download URL for Japanese version of WordPress**
   if ! wget https://ja.wordpress.org/latest-ja.zip -O /tmp/latest-ja.zip; then
 
-- このURLとファイル名を、希望の言語のWordPressダウンロードリンクに変更します。例えば、以下のような言語バージョンがあります。
+- Change this URL and file name to the WordPress download link for your desired language. For example, there are language versions such as:
 
-  - 英語版: https://wordpress.org/latest.zip
-  - フランス語版: https://fr.wordpress.org/latest-fr_FR.zip
-  - ドイツ語版: https://de.wordpress.org/latest-de_DE.zip
+  - English version: https://wordpress.org/latest.zip
+  - French version: https://fr.wordpress.org/latest-fr_FR.zip
+  - German version: https://de.wordpress.org/latest-de_DE.zip
 
-- 変更する箇所:
-  - wget のURL（例: https://ja.wordpress.org/latest-ja.zip → https://fr.wordpress.org/latest-fr_FR.zip）
-  - ファイル名（例: latest-ja.zip → latest-fr_FR.zip）
+- Areas to change:
+  - wget URL (e.g., https://ja.wordpress.org/latest-ja.zip → https://fr.wordpress.org/latest-fr_FR.zip)
+  - File name (e.g., latest-ja.zip → latest-fr_FR.zip)
 
-## 解凍先ディレクトリについて
-- 解凍先に `wordpress-ja` というディレクトリがありますが、特に変更する必要はありません。ただし、気になる場合や言語ごとにディレクトリ名を分けたい場合は、解凍先ディレクトリ（例: `wordpress-fr`）に変更することもできます。
+## About the Extraction Directory
+- There's a directory named `wordpress-ja` as the extraction destination, but you don't need to change it specifically. However, if you prefer or want to separate directory names by language, you can change the extraction directory (e.g., `wordpress-fr`).
 
-## 具体例
-- フランス語版に変更したい場合の例は、以下のようになります。
+## Specific Example
+- If you want to change to the French version, it would look like this:
 
 ```bash
-# WordPressのコアファイルを最新に更新
-echo "WordPressコアファイルを更新しています..."
+# Update WordPress core files to the latest version
+echo "Updating WordPress core files..."
 if ! wget https://fr.wordpress.org/latest-fr_FR.zip -O /tmp/latest-fr_FR.zip; then
-  echo "WordPressコアファイルのダウンロードに失敗しました"
+  echo "Failed to download WordPress core files"
   exit 1
 fi
 if ! unzip -o /tmp/latest-fr_FR.zip -d /tmp/wordpress-fr; then
-  echo "WordPressコアファイルの解凍に失敗しました"
+  echo "Failed to extract WordPress core files"
   exit 1
 fi
 ```
-## 変更が必要なポイント
-- wget のURL（例: https://ja.wordpress.org/latest-ja.zip → https://fr.wordpress.org/latest-fr_FR.zip）
-- ファイル名（例: latest-ja.zip → latest-fr_FR.zip）
-- 解凍先ディレクトリ（例: wordpress-ja → wordpress-fr）
+## Points that need to be changed
+- wget URL (e.g., https://ja.wordpress.org/latest-ja.zip → https://fr.wordpress.org/latest-fr_FR.zip)
+- File name (e.g., latest-ja.zip → latest-fr_FR.zip)
+- Extraction directory (e.g., wordpress-ja → wordpress-fr)
 
 ## Dockerfile
 
-**目的**: WordPress環境をカスタマイズするための基本的な設定ファイルです。
+**Purpose**: This is the basic configuration file for customizing the WordPress environment.
 
-**主な設定**:
-- **パーミッションの変更**: `UID` と `GID` を指定し、ホスト側とコンテナ内のファイル権限を調整しています。
-- **Apacheログの永続化**: Apacheのログをホスト側に保存できるように設定しています。
+**Main settings**:
+- **Permission changes**: Specifies `UID` and `GID` to adjust file permissions between the host and the container.
+- **Apache log persistence**: Configures Apache logs to be saved on the host side.
 
-詳しい設定内容については、GitHubのリポジトリ内の [Dockerfile](リンク先) を参照してください。
+For detailed configuration contents, please refer to the Dockerfile in the GitHub repository.
 
-## .env ファイル
+## .env file
 
-**目的**: 環境変数を一括管理し、WordPressとMySQLの接続設定を容易に変更できるようにします。
+**Purpose**: Manages environment variables collectively and allows easy changes to WordPress and MySQL connection settings.
 
-**主な設定内容**:
-- **WORDPRESS_DB_HOST**: WordPressが接続するデータベースのホスト名。通常、`db` としてMySQLコンテナを指定します。
-- **WORDPRESS_DB_USER**: データベースにアクセスするためのユーザー名。例として `exampleuser` が設定されます。
-- **WORDPRESS_DB_PASSWORD**: データベースにアクセスするためのパスワード。セキュリティを考慮し、適切なパスワード（例: `examplepass`）を設定します。
-- **WORDPRESS_DB_NAME**: WordPressが利用するデータベース名。例として `exampledb` が設定されています。
-- **MYSQL_DATABASE**: MySQLで作成されるデータベース名。`exampledb` を指定しています。
-- **MYSQL_USER**: MySQLのデータベースにアクセスするためのユーザー名。`exampleuser` を設定します。
-- **MYSQL_PASSWORD**: MySQLユーザー用のパスワード。
-- **MYSQL_ROOT_PASSWORD**: MySQLのルート（管理者）ユーザー用のパスワード。
+**Main configuration contents**:
+- **WORDPRESS_DB_HOST**: The hostname of the database WordPress connects to. Usually set to `db` to specify the MySQL container.
+- **WORDPRESS_DB_USER**: The username for accessing the database. For example, `exampleuser` is set.
+- **WORDPRESS_DB_PASSWORD**: The password for accessing the database. Set an appropriate password (e.g., `examplepass`) considering security.
+- **WORDPRESS_DB_NAME**: The name of the database used by WordPress. For example, `exampledb` is set.
+- **MYSQL_DATABASE**: The name of the database created in MySQL. Specified as `exampledb`.
+- **MYSQL_USER**: The username for accessing the MySQL database. Set to `exampleuser`.
+- **MYSQL_PASSWORD**: The password for the MySQL user.
+- **MYSQL_ROOT_PASSWORD**: The password for the MySQL root (admin) user.
 
-**例**:
+**Example**:
 ```bash
-# WordPressの設定
+# WordPress settings
 WORDPRESS_DB_HOST=db
 WORDPRESS_DB_USER=exampleuser
 WORDPRESS_DB_PASSWORD=examplepass
 WORDPRESS_DB_NAME=exampledb
 
-# MySQLの設定
+# MySQL settings
 MYSQL_DATABASE=exampledb
 MYSQL_USER=exampleuser
 MYSQL_PASSWORD=examplepass
 MYSQL_ROOT_PASSWORD=rootpassword
 ```
-**特徴**:
-- 環境変数をファイルで一元管理できるため、設定の変更が簡単です。
-- `.env` ファイルの内容は `docker-compose.yml` で参照され、環境に応じて設定を変更可能です。
+**Features**:
+- Environment variables can be managed centrally in a file, making it easy to change settings.
+- The contents of the `.env` file are referenced in `docker-compose.yml`, allowing settings to be changed according to the environment.
 
 ## docker-compose.yml
 
-**目的**: WordPress と MySQL の複数サービスを Docker コンテナ上で簡単に管理・運用するための設定ファイルです。`docker-compose` を使用して、複数のコンテナを一度に管理・操作することができます。
+**Purpose**: This is a configuration file for easily managing and operating multiple services like WordPress and MySQL on Docker containers. Using `docker-compose`, you can manage and operate multiple containers at once.
 
-**主な設定**:
-- **WordPress サービス**: WordPress のコンテナを構築し、データベース（MySQL）と連携するための設定が含まれています。環境変数やポートの指定、ファイルの永続化が行われています。
-- **MySQL サービス**: WordPress が使用する MySQL データベースを提供するサービスです。データベースの設定や、永続化するためのボリューム設定が行われています。
-- **バックアップ機能**: MySQL データベースの自動バックアップ機能を追加することで、データの安全性を高めています。バックアップは定期的に自動化され、外部ディレクトリに保存されます。
+**Main settings**:
+- **WordPress service**: Includes settings for building the WordPress container and coordinating with the database (MySQL). Environment variables, port specifications, and file persistence are set up.
+- **MySQL service**: This service provides the MySQL database used by WordPress. It includes database configuration and volume settings for persistence.
+- **Backup function**: By adding an automatic backup function for the MySQL database, it enhances data safety. Backups are automated periodically and saved to an external directory.
 
-詳しい設定内容については、GitHubリポジトリ内の [docker-compose.yml](リンク先) を参照してください。
+For detailed configuration contents, please refer to the docker-compose.yml in the GitHub repository.
 
 ## php.ini
 
-**目的**: PHP の設定ファイルであり、WordPress や他の PHP アプリケーションが動作する際の環境をカスタマイズするために使用します。このファイルでは、アップロードサイズやメモリの制限、タイムゾーンの設定などを管理します。
+**Purpose**: This is the PHP configuration file used to customize the environment in which WordPress or other PHP applications run. This file manages settings such as upload size, memory limits, and timezone settings.
 
-**主な設定**:
-- **ファイルアップロードサイズの調整**: 大容量のファイルやテーマ、プラグインをアップロードできるように、`upload_max_filesize` や `post_max_size` の値を調整します。
-- **メモリ使用量の制限**: PHP スクリプトが使用できる最大メモリ量を `memory_limit` で設定します。
-- **タイムゾーンの設定**: `date.timezone` を使用して、サーバーが動作するタイムゾーンを適切に設定します。
+**Main settings**:
+- **Adjusting file upload size**: Adjust values for `upload_max_filesize` and `post_max_size` to allow uploading of large files, themes, or plugins.
+- **Memory usage limit**: Set the maximum amount of memory that PHP scripts can use with `memory_limit`.
+- **Timezone setting**: Use `date.timezone` to properly set the timezone in which the server operates.
 
-**例**: 以下の設定を追加して、アップロードサイズを 200M にし、タイムゾーンを日本標準時（Asia/Tokyo）に設定します。（アメリカの場合は America/New_York など）。
+**Example**: Add the following settings to set the upload size to 200M and set the timezone to Japan Standard Time (Asia/Tokyo). (For America, it would be America/New_York, etc.).
 
 ```ini
 upload_max_filesize = 200M
@@ -127,48 +127,64 @@ post_max_size = 200M
 memory_limit = 256M
 date.timezone = "Asia/Tokyo"
 ```
-**特徴**:
-- **柔軟な設定変更**: サーバーの負荷に応じて、メモリ使用量やアップロードサイズを簡単に調整できます。
-- **タイムゾーン設定のサポート**: サーバーの設置場所やターゲットユーザーに合わせて、タイムゾーンを指定できます。
-- **詳しい設定内容**: 詳細な設定については、GitHubリポジトリ内の [php.ini](リンク先) を参照してください。
+**Features**:
+- **Flexible configuration changes**: Memory usage and upload size can be easily adjusted according to server load.
+- **Timezone setting support**: The timezone can be specified to match the server location or target users.
+- **Detailed configuration content**: For detailed settings, please refer to php.ini in the GitHub repository.
 
-## コンテナの立ち上げ方（ビルド込み）
-**目的**: Docker Compose を使って WordPress 環境をビルドし、立ち上げる手順を説明します。
-| 手順                      | コマンド                            | 説明                                                                                           |
+## How to Launch Containers (Including Build)
+**Purpose**: Explains the procedure for building and launching a WordPress environment using Docker Compose.
+| Step                      | Command                             | Description                                                                                    |
 |---------------------------|-------------------------------------|------------------------------------------------------------------------------------------------|
-| Docker イメージのビルド      | `docker compose build`              | Dockerfile をもとにイメージがビルドされます。初めての実行時、または Dockerfile に変更があった場合に実行します。               |
-| コンテナの起動              | `docker compose up -d`              | バックグラウンドでコンテナを起動します。                                                        |
-| コンテナの状態確認          | `docker ps`                         | 現在稼働中のコンテナをリスト表示します。                                                        |
-| コンテナの停止              | `docker compose down`               | コンテナを停止します。                                                                          |
-| コンテナの停止とデータ削除  | `docker compose down --volumes`     | コンテナと一緒にボリュームやデータも削除します。                                                |
+| Build Docker images       | `docker compose build`              | Builds images based on the Dockerfile. Run this for the first time or when Dockerfile changes. |
+| Start containers          | `docker compose up -d`              | Starts containers in the background.                                                            |
+| Check container status    | `docker ps`                         | Lists currently running containers.                                                             |
+| Stop containers           | `docker compose down`               | Stops the containers.                                                                           |
+| Stop and delete data      | `docker compose down --volumes`     | Stops containers and deletes volumes and data.                                                  |
 
 
-## データベースの手動リストアの手順
+## Manual Database Restore Procedure
 
-**目的**: 自動バックアップに加え、手動でデータベースをリストアする方法を提供します。トラブル発生時に `.sql` バックアップファイルを使ってデータベースを復元できます。
+**Purpose**: Provides a method for manually restoring the database in addition to automatic backups. Allows database restoration using `.sql` backup files in case of trouble.
 
-**主な手順**:
-- **MySQLコンテナ内での操作**: `docker exec` コマンドを使って、MySQLコンテナ内にアクセスし、リストアを行います。
+**Main Steps**:
+- **Operations inside MySQL container**: Use the `docker exec` command to access the MySQL container and perform the restore.
 
 ---
 
-### 手順
+### Procedure
 
-**MySQLコンテナに接続**:  
-   下記コマンドでMySQLコンテナに接続します。
+**Connect to MySQL container**:  
+   Connect to the MySQL container using the following command:
 
    ```bash
    docker exec -it wpsql mysql -u root -p
    ```
-### バックアップファイルを使ってリストア:
+### Restore using backup file:
 
-`.sql` ファイルを指定してデータベースをリストアします。  
-例えば、`backup.sql` を使用してリストアする場合は、以下のコマンドを使用します。
+Restore the database using a specified `.sql` file.  
+For example, to restore using `backup.sql`, use the following command:
 
    ```bash
    mysql -u root -p bkdb < /path/to/backup.sql
    ```
-## 特徴
+## Features
 
-- **手動操作の簡便さ**: MySQLのリストアを手動で行う際に役立ちます。
-- **トラブル時の対処**: 自動バックアップの失敗時など、緊急時に手動リストアが可能です。
+- **Ease of manual operation**: Useful when performing MySQL restores manually.
+- **Troubleshooting**: Allows manual restore in emergencies, such as when automatic backups fail.
+
+## Detailed Explanation
+
+**English**  
+[https://betelgeuse.work/archives/8193](https://betelgeuse.work/archives/8193)
+
+**Japanese**  
+[https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)
+
+## Videos
+
+**English**  
+[https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ](https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ)
+
+**Japanese**  
+[https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ](https://studio.youtube.com/channel/UCMaNwnAeMhtBlAZSWltN2GQ)

@@ -16,22 +16,20 @@ services:
       - WORDPRESS_DB_NAME
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./wordpress:/var/www/html  # WordPressのファイルをホストに永続化
-      - ./logs/apache2:/var/log/apache2  # ログファイルの外部マウント
+      - ./wordpress:/var/www/html  # Persist WordPress files on the host
+      - ./logs/apache2:/var/log/apache2  # Mount log files externally
 
   db:
     image: mysql:latest
     container_name: wordpress-db
     restart: always
-    ports:
-      - "3306:3306"
     environment:
       - MYSQL_DATABASE
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_ROOT_PASSWORD
     volumes:
-      - ./db_data:/var/lib/mysql  # MySQLデータを永続化
+      - ./db_data:/var/lib/mysql  # Persist MySQL data
 
   wpsql:
     image: mysql:latest
@@ -43,7 +41,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./backup:/backup  # バックアップ用のディレクトリ
+      - ./backup:/backup  # Directory for backups
     command: >
       /bin/bash -c "
       while ! mysqladmin ping -h \"$$MYSQL_HOST\" --silent; do
@@ -59,4 +57,4 @@ services:
 
 volumes:
   db_data: {}
-  backup: {}  # バックアップ用ボリュームを追加
+  backup: {}  # Added volume for backups
