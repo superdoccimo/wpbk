@@ -18,7 +18,6 @@ services:
       - ./php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wordpress:/var/www/html
       - ./logs/apache2:/var/log/apache2
-    user: "33:33"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 30s
