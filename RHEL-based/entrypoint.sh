@@ -3,15 +3,11 @@ set -e
 
 echo "Starting entrypoint.sh script..."
 
-# Ensure proper permissions for Apache logs
-echo "Setting permissions for Apache logs..."
-chown -R apache:apache /var/log/apache2
-chmod -R 755 /var/log/apache2
-
-# Set permissions for the HTML directory
-echo "Setting permissions for the html directory..."
-chown -R apache:apache /var/www/html
-chmod -R 755 /var/www/html
+# Ensure proper permissions for Apache logs and WordPress directory
+echo "Setting permissions..."
+chown -R www-data:www-data /var/log/apache2 /var/www/html
+find /var/www/html -type d -exec chmod 755 {} \;
+find /var/www/html -type f -exec chmod 644 {} \;
 
 # If wp-config.php does not exist, copy the WordPress files
 if [ ! -f /var/www/html/wp-config.php ]; then
@@ -51,6 +47,11 @@ if [ -f /var/www/html/wp-config.php ]; then
   sed -i "s/username_here/${WORDPRESS_DB_USER}/" /var/www/html/wp-config.php
   sed -i "s/password_here/${WORDPRESS_DB_PASSWORD}/" /var/www/html/wp-config.php
   sed -i "s/localhost/${WORDPRESS_DB_HOST}/" /var/www/html/wp-config.php
+  
+  # Add FS_METHOD setting
+  if ! grep -q "FS_METHOD" /var/www/html/wp-config.php; then
+    sed -i "/<?php/a define('FS_METHOD', 'direct');" /var/www/html/wp-config.php
+  fi
 fi
 
 echo "Contents of /var/www/html:"
@@ -59,5 +60,5 @@ ls -la /var/www/html
 echo "Contents of /var/log/apache2:"
 ls -la /var/log/apache2
 
-echo "Switching to apache user..."
-exec gosu apache "$@"
+# Run Apache as www-data
+exec apache2-foreground

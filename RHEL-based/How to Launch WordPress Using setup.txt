@@ -1,0 +1,21 @@
+How to Launch WordPress Using setup.sh
+To easily launch WordPress on a Red Hat-based system like AlmaLinux, follow these steps. After setting the appropriate permissions, you can simply run the setup.sh script to successfully configure and launch WordPress.
+
+Instructions:
+
+Make the setup.sh script executable:
+
+chmod +x setup.sh
+
+Run the script:
+
+./setup.sh
+
+The script will perform the following actions:
+
+Create the WordPress directory if it doesn't exist.
+Set the correct ownership (UID 33, GID 33) and permissions for the WordPress directory.
+Build and start the Docker containers for WordPress.
+Check the health status of the container.
+Once the container is running, adjust the ownership of the WordPress directory again to ensure proper access.
+After executing ./setup.sh, WordPress will be accessible at http://localhost:8080.

@@ -5,34 +5,38 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-      args:
-        - UID=${HOST_UID:-48}
-        - GID=${HOST_GID:-48}
     container_name: wordpress
     restart: unless-stopped
     ports:
       - "8080:80"
     environment:
-      - WORDPRESS_DB_HOST
-      - WORDPRESS_DB_USER
-      - WORDPRESS_DB_PASSWORD
-      - WORDPRESS_DB_NAME
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wordpress:/var/www/html
       - ./logs/apache2:/var/log/apache2
+    user: "33:33"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
   db:
     image: mysql:latest
     container_name: wordpress-db
     restart: always
     environment:
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./db_data:/var/lib/mysql  # Persist MySQL data
+      - ./db_data:/var/lib/mysql
 
   wpsql:
     image: mysql:latest
@@ -44,7 +48,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./backup:/backup  # Directory for backups
+      - ./backup:/backup
     command: >
       /bin/bash -c "
       while ! mysqladmin ping -h \"$$MYSQL_HOST\" --silent; do
@@ -60,4 +64,4 @@ services:
 
 volumes:
   db_data: {}
-  backup: {}  # Added volume for backups
+  backup: {}
