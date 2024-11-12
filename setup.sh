@@ -1,8 +1,12 @@
 #!/bin/bash
 
-# Create the WordPress directory if it doesn't exist
+# Create necessary directories if they don't exist
 if [ ! -d "./wordpress" ]; then
     mkdir ./wordpress
+fi
+
+if [ ! -d "./backup" ]; then
+    mkdir ./backup
 fi
 
 # Change the owner and group of the WordPress directory
@@ -11,6 +15,9 @@ sudo chown -R 33:33 ./wordpress
 # Set permissions for directories and files within the WordPress directory
 sudo find ./wordpress -type d -exec chmod 755 {} \;
 sudo find ./wordpress -type f -exec chmod 644 {} \;
+
+# Set permissions for backup directory
+sudo chmod 777 ./backup
 
 # Build and start the Docker containers
 docker compose up -d --build

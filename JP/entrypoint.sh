@@ -21,24 +21,24 @@ if [ ! -f /var/www/html/wp-config.php ]; then
   fi
 fi
 
-# Download and extract Japanese version of WordPress
+# Download and extract English version of WordPress
 if [ ! -d /var/www/html/wp-content/languages ]; then
-  echo "Downloading Japanese version of WordPress..."
-  wget https://ja.wordpress.org/latest-ja.zip -O /tmp/latest-ja.zip
-  echo "Extracting Japanese version of WordPress..."
-  unzip /tmp/latest-ja.zip -d /tmp/wordpress-ja
+  echo "Downloading English version of WordPress..."
+  wget https://wordpress.org/latest.zip -O /tmp/latest.zip
+  echo "Extracting English version of WordPress..."
+  unzip /tmp/latest.zip -d /tmp/wordpress
   
-  echo "Copying Japanese WordPress files..."
-  cp -rv /tmp/wordpress-ja/wordpress/* /var/www/html/
+  echo "Copying English WordPress files..."
+  cp -rv /tmp/wordpress/wordpress/* /var/www/html/
 fi
 
 # Update the WordPress core files to the latest version
 echo "Updating WordPress core files..."
-wget https://ja.wordpress.org/latest-ja.zip -O /tmp/latest-ja.zip
-unzip -o /tmp/latest-ja.zip -d /tmp/wordpress-ja
+wget https://wordpress.org/latest.zip -O /tmp/latest.zip
+unzip -o /tmp/latest.zip -d /tmp/wordpress
 
 # Copy core files while excluding the wp-content directory
-rsync -a --exclude 'wp-content' /tmp/wordpress-ja/wordpress/ /var/www/html/
+rsync -a --exclude 'wp-content' /tmp/wordpress/wordpress/ /var/www/html/
 
 # Apply environment variables to wp-config.php
 if [ -f /var/www/html/wp-config.php ]; then
