@@ -52,7 +52,7 @@ For detailed information:
 [https://betelgeuse.work/archives/8193](https://betelgeuse.work/archives/8193)
 
 **Japanese**  
-[https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)
+[https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
 [https://minokamo.xyz/2024/11/17/32008/](https://minokamo.xyz/2024/11/17/32008//)
 
 ## Video Tutorials
