@@ -53,6 +53,7 @@ For detailed information:
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)
+[https://minokamo.xyz/2024/11/17/32008/](https://minokamo.xyz/2024/11/17/32008//)
 
 ## Video Tutorials
 
