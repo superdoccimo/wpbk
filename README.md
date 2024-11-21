@@ -45,20 +45,42 @@ docker ps
 - Automatic daily backups are stored in `./backup`
 - Manual restore available using MySQL container
 
+## Troubleshooting Database Import
+
+Having issues importing your database? Check our detailed troubleshooting guide:
+
+### Common Issues
+- MySQL 9.x authentication problems (especially on AlmaLinux)
+- Database connection errors
+- Permalink structure issues after import
+
+For a complete step-by-step solution, visit our troubleshooting guide:  
+[MySQL Import Troubleshooting Guide](https://showa.fun/mysql-import/)
+
+This guide covers:
+- MySQL 9.x specific solutions
+- Distribution-specific issues (AlmaLinux vs Ubuntu)
+- WordPress permalink fixes
+- Docker permission handling
+
 ## Documentation
 For detailed information:
 
 **English**  
-[https://betelgeuse.work/archives/8193](https://betelgeuse.work/archives/8193)
+[https://betelgeuse.work/wordpress-docker-windows/](https://betelgeuse.work/wordpress-docker-windows/)<br>
+[https://betelgeuse.work/mysql9-wordpress/](https://betelgeuse.work/mysql9-wordpress/)
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
-[https://minokamo.xyz/2024/11/17/32008/](https://minokamo.xyz/2024/11/17/32008//)
+[https://minokamo.xyz/2024/11/17/32008/](https://minokamo.xyz/2024/11/17/32008/)<br>
+[https://minokamo.tokyo/2024/11/21/8261/](https://minokamo.tokyo/2024/11/21/8261/)
 
 ## Video Tutorials
 
 **English**  
-[https://youtu.be/Rd1NwwLfyn8](https://youtu.be/Rd1NwwLfyn8)
+[https://youtu.be/Rd1NwwLfyn8](https://youtu.be/Rd1NwwLfyn8)<br>
+[https://youtu.be/wQw2xxwww8c](https://youtu.be/wQw2xxwww8c)
 
 **Japanese**  
-[https://youtu.be/MjQ9jPClsaY](https://youtu.be/MjQ9jPClsaY)
+[https://youtu.be/MjQ9jPClsaY](https://youtu.be/MjQ9jPClsaY)<br>
+[https://youtu.be/eecAIxt78zE](https://youtu.be/eecAIxt78zE)
