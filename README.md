@@ -67,12 +67,12 @@ This guide covers:
 For detailed information:
 
 **English**  
-[https://betelgeuse.work/wordpress-docker-windows/](https://betelgeuse.work/wordpress-docker-windows/)<br>
-[https://betelgeuse.work/mysql9-wordpress/](https://betelgeuse.work/mysql9-wordpress/)
+[https://betelgeuse.work/docker-compose-wordpress/](https://betelgeuse.work/docker-compose-wordpress/)<br>
+[https://betelgeuse.work/mysql-import/](https://betelgeuse.work/mysql-import/)
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
-[https://minokamo.xyz/2024/11/17/32008/](https://minokamo.xyz/2024/11/17/32008/)<br>
+[https://minokamo.xyz/wordpress-docker/](https://minokamo.xyz/wordpress-docker/)<br>
 [https://minokamo.tokyo/2024/11/21/8261/](https://minokamo.tokyo/2024/11/21/8261/)
 
 ## Video Tutorials
