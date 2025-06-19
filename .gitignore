@@ -1,0 +1,22 @@
+# WordPress volumes
+wordpress/
+db_data/
+backup/
+logs/
+
+# Environment files
+.env
+
+# Misc
+.DS_Store
+
+# IDE directories
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Temporary files
+*~
+*.swp

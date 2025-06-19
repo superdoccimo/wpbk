@@ -12,12 +12,17 @@ A streamlined Docker environment for WordPress with automatic backup functionali
 ## Quick Setup
 
 1. Clone this repository
-2. Make setup script executable and run:
+2. Copy `.env.example` to `.env` then edit `.env` to set your own passwords:
+```bash
+cp .env.example .env
+# then edit .env to set your own passwords
+```
+3. Make setup script executable and run:
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
-3. Access WordPress: http://localhost:8080
+4. Access WordPress: http://localhost:8080
 
 ## Configuration
 Edit `.env` file to customize your database settings:
