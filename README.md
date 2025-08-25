@@ -89,7 +89,7 @@ Having issues importing your database? Check our detailed troubleshooting guide:
 - Permalink structure issues after import
 
 For a complete step-by-step solution, visit our troubleshooting guide:  
-[MySQL Import Troubleshooting Guide](https://showa.fun/mysql-import/)
+[MySQL Import Troubleshooting Guide](https://macadens.com/mysql-import/)
 
 This guide covers:
 - MySQL 9.x specific solutions
@@ -101,8 +101,8 @@ This guide covers:
 For detailed information:
 
 **English**  
-[https://betelgeuse.work/docker-compose-wordpress/](https://betelgeuse.work/docker-compose-wordpress/)<br>
-[https://betelgeuse.work/mysql-import/](https://betelgeuse.work/mysql-import/)
+[https://betelgeuse.work/docker-compose-wordpress/](https://macadens.com/docker-compose-wordpress/)<br>
+[https://betelgeuse.work/mysql-import/](https://macadens.com/mysql-import/)
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
