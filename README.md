@@ -107,7 +107,8 @@ For detailed information:
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
 [https://minokamo.xyz/wordpress-docker/](https://minokamo.xyz/wordpress-docker/)<br>
-[https://minokamo.tokyo/2024/11/21/8261/](https://minokamo.tokyo/2024/11/21/8261/)
+[https://minokamo.tokyo/2024/11/21/8261/](https://minokamo.tokyo/2024/11/21/8261/)<br>
+[https://minokamo.tokyo/2025/08/25/9230/](https://minokamo.tokyo/2025/08/25/9230/)
 
 ## Video Tutorials
 
