@@ -1,0 +1,3 @@
+# Default schedule (overridden by ENTRYPOINT at runtime)
+# Daily at 03:00
+0 3 * * * /usr/local/bin/backup.sh >> /proc/1/fd/1 2>&1

@@ -10,9 +10,10 @@ case "$1" in
         echo "WordPressを停止しました"
         ;;
     "backup")
-        timestamp=$(date +%Y%m%d_%H%M%S)
-        docker exec wordpress-db mysqldump -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" > "./backup/manual_backup_$timestamp.sql"
-        echo "バックアップを作成しました: manual_backup_$timestamp.sql"
+        echo "バックアップを開始します..."
+        cd ..
+        make backup-now
+        echo "バックアップが完了しました。./backup フォルダを確認してください。"
         ;;
     "status")
         docker compose ps

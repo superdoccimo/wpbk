@@ -1,0 +1,5 @@
+ignored:
+  - DL3008  # Pin versions in apt-get (relaxed for simplicity)
+  - DL3009  # Use apt-get dist-upgrade (not needed here)
+  - DL3015  # Avoid additional packages (we install minimal tools)
+

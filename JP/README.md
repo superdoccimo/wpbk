@@ -18,11 +18,13 @@ chmod +x setup.sh management.sh
 ```bash
 ./management.sh start   # 起動
 ./management.sh stop    # 停止
-./management.sh backup  # バックアップ
+./management.sh backup  # バックアップ（要起動状態）
 ./management.sh status  # 状態確認
+./management.sh reset   # 全リセット
 ```
 
 ## 備考
 - バックアップは24時間ごとに自動作成
-- データは `./wordpress` と `./db_data` に保存
-- バックアップは `./backup` に保存
+- データは `./wordpress` と `./db_data` に保存  
+- バックアップは `./backup` に保存（.sql.gz形式）
+- 手動バックアップにはサービス起動が必要

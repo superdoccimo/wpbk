@@ -1,20 +1,16 @@
 #!/bin/bash
 
 # Create necessary directories if they don't exist
-if [ ! -d "./wordpress" ]; then
-    mkdir ./wordpress
-fi
+mkdir -p ./wordpress/wp-content
+mkdir -p ./backup
+mkdir -p ./logs/apache2
 
-if [ ! -d "./backup" ]; then
-    mkdir ./backup
-fi
+# Change the owner and group of the WordPress content directory
+sudo chown -R 33:33 ./wordpress/wp-content
 
-# Change the owner and group of the WordPress directory
-sudo chown -R 33:33 ./wordpress
-
-# Set permissions for directories and files within the WordPress directory
-sudo find ./wordpress -type d -exec chmod 755 {} \;
-sudo find ./wordpress -type f -exec chmod 644 {} \;
+# Set permissions for directories and files within the WordPress content directory
+sudo find ./wordpress/wp-content -type d -exec chmod 755 {} \;
+sudo find ./wordpress/wp-content -type f -exec chmod 644 {} \;
 
 # Set permissions for backup directory
 sudo chmod 777 ./backup
@@ -29,7 +25,7 @@ until [ "`docker inspect -f {{.State.Health.Status}} wordpress`" == "healthy" ];
 done
 
 # Change the ownership again
-sudo chown -R 33:33 ./wordpress
+sudo chown -R 33:33 ./wordpress/wp-content
 
 echo "Ownership has been updated."
 

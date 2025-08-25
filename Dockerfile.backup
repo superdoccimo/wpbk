@@ -1,0 +1,17 @@
+FROM mysql:8.4
+
+# Install dependencies and supercronic
+RUN microdnf install -y ca-certificates curl \
+    && microdnf clean all \
+    && curl -fsSL -o /usr/local/bin/supercronic https://github.com/aptible/supercronic/releases/download/v0.2.30/supercronic-linux-amd64 \
+    && chmod +x /usr/local/bin/supercronic
+
+# Add backup script and crontab
+COPY scripts/backup.sh /usr/local/bin/backup.sh
+COPY supercronic.crontab /etc/supercronic/crontab
+RUN chmod +x /usr/local/bin/backup.sh
+
+ENV BACKUP_SCHEDULE="0 3 * * *" \
+    BACKUP_RETENTION_DAYS=14
+
+ENTRYPOINT ["/bin/sh", "-lc", "echo \"${BACKUP_SCHEDULE:-0 3 * * *} /usr/local/bin/backup.sh >> /proc/1/fd/1 2>&1\" > /etc/supercronic/crontab && exec /usr/local/bin/supercronic -quiet /etc/supercronic/crontab"]

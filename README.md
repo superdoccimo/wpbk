@@ -46,9 +46,38 @@ docker compose down
 docker ps
 ```
 
+## Developer Shortcuts
+Use the included Makefile for common tasks:
+```bash
+# Build and start
+make up
+# Stop and remove
+make down
+# Validate compose file
+make validate
+# Tail logs of a service
+make logs svc=wordpress
+# Run wp-cli command
+make wp cmd="plugin list"
+# Trigger a backup now (requires services to be running)
+make backup-now
+# Restore from a backup
+make restore FILE=backup/your_dump.sql.gz
+```
+
 ## Backup & Restore
-- Automatic daily backups are stored in `./backup`
-- Manual restore available using MySQL container
+- Automatic daily backups are stored in `./backup` (cron-based via sidecar). Files are compressed as `*.sql.gz`.
+- Schedule and retention are configurable in `.env`:
+  - `BACKUP_SCHEDULE` (cron format, default daily 03:00)
+  - `BACKUP_RETENTION_DAYS` (default 14 days)
+- Manual backup (requires services to be running):
+```bash
+make backup-now
+```
+- Restore from dump:
+```bash
+gzip -dc backup/your_dump.sql.gz | docker exec -i wordpress-db sh -lc 'exec mysql -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"'
+```
 
 ## Troubleshooting Database Import
 
