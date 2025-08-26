@@ -101,8 +101,8 @@ This guide covers:
 For detailed information:
 
 **English**  
-[https://betelgeuse.work/docker-compose-wordpress/](https://macadens.com/docker-compose-wordpress/)<br>
-[https://betelgeuse.work/mysql-import/](https://macadens.com/mysql-import/)
+[https://macadens.com/docker-compose-wordpress/](https://macadens.com/docker-compose-wordpress/)<br>
+[https://macadens.com/mysql-import/](https://macadens.com/mysql-import/)
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
