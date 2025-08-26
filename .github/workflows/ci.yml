@@ -17,11 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@2.0.0
+        uses: docker://koalaman/shellcheck-alpine
         with:
-          scandir: |
-            .
-          ignore: |
+          scandir: .
+          check_together: true
+          severity: warning
+          # 非推奨の `ignore` の代わりにこちらを使用
+          ignore_paths: |
             .git
             .serena
 
@@ -29,10 +31,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check for Dockerfiles
+        id: dockerfiles-check
+        run: |
+          if [[ -n "$(find . -type f \( -iname 'Dockerfile' -o -iname '*.Dockerfile' \))" ]]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
       - name: Lint Dockerfiles
+        if: steps.dockerfiles-check.outputs.found == 'true'
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: |
-            Dockerfile
-            Dockerfile.backup
-
+          # 単一ファイル指定の代わりに、再帰走査でまとめて検査
+          recursive: true
+          # ルートにある .hadolint.yaml を確実に読ませる
+          config: .hadolint.yaml
+          no-color: true
