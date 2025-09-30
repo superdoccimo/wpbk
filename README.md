@@ -101,8 +101,8 @@ This guide covers:
 For detailed information:
 
 **English**  
-[https://vibelsd.com/docker-compose-wordpress/](https://betelgeuse.work/docker-compose-wordpress/)<br>
-[https://vibelsd.com/mysql-import/](https://betelgeuse.work/mysql-import/)
+[https://betelgeuse.work/docker-compose-wordpress/](https://betelgeuse.work/docker-compose-wordpress/)<br>
+[https://betelgeuse.work/docker-compose-wordpress/](https://betelgeuse.work/docker-compose-wordpress/)
 
 **Japanese**  
 [https://minokamo.tokyo/2024/09/19/7956/](https://minokamo.tokyo/2024/09/19/7956/)<br>
